@@ -36,10 +36,6 @@ export const auth = betterAuth({
   },
   secret: process.env.BETTER_AUTH_SECRET || defaultSecret,
   baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  // Allow all origins in development and Vercel
-  advanced: {
-    allowOrigins: ["*"],
-  },
 })
 
 export type Session = typeof auth.$Infer.Session
