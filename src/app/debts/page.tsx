@@ -34,7 +34,7 @@ interface DebtWithProgress {
   remainingBalance: number
   monthlyInstallment: number
   dueDate: string
-  color: string
+  color?: string | null
   paid: number
   progress: number
   monthsRemaining: number
