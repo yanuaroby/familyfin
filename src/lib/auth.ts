@@ -23,9 +23,14 @@ const getTrustedOrigins = () => {
     origins.push(`https://${process.env.VERCEL_URL}`)
   }
   
-  // Add all Vercel app URLs
+  // Add all Vercel app URLs (wildcard pattern)
   origins.push("https://familyfin-623w.vercel.app")
   origins.push("https://familyfin-4p437cicr-yanuarobys-projects.vercel.app")
+  origins.push("https://*.vercel.app")
+  
+  // Add Vercel preview pattern
+  origins.push("https://familyfin-*.vercel.app")
+  origins.push("https://*-yanuaroby-projects.vercel.app")
   
   return origins.filter(Boolean)
 }
