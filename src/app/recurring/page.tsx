@@ -116,7 +116,7 @@ export default function RecurringPage() {
           userId,
           amount: parseFloat(formData.amount),
           categoryId: formData.categoryId,
-          walletId: formData.walletId,
+          accountId: formData.walletId,
           debtId: formData.debtId || undefined,
           type: formData.type,
           note: formData.note,
@@ -265,7 +265,7 @@ export default function RecurringPage() {
                   <Label className="text-white">Category</Label>
                   <Select
                     value={formData.categoryId}
-                    onValueChange={setFormData}
+                    onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
                   >
                     <SelectTrigger className="bg-white/5 border-white/10 text-white">
                       <SelectValue placeholder="Select category" />

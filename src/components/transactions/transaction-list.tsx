@@ -26,17 +26,32 @@ import {
 import { formatCurrency } from "@/lib/utils"
 import type { Transaction, Category, Wallet, User } from "@/lib/db/schema"
 
-interface TransactionWithDetails extends Transaction {
+interface TransactionWithDetails {
+  id: string
+  amount: number
+  date: string
+  type: "income" | "expense" | "transfer" | "debt_repayment"
+  categoryId?: string
+  accountId?: string
+  walletId?: string
+  debtId?: string
+  userId?: string
+  note?: string | null
+  createdAt?: string
+  updatedAt?: string
   category?: Category
   wallet?: Wallet
   user?: User
+  isRecurring?: boolean
+  recurringTemplateId?: string
+  receiptImage?: string | null
 }
 
 interface TransactionListProps {
   transactions: TransactionWithDetails[]
-  categories: Category[]
-  wallets: Wallet[]
-  users: User[]
+  categories: Array<{ id: string; name: string; type: "income" | "expense"; color?: string | null; parentId?: string | null }>
+  wallets: Array<{ id: string; name: string; userId: string; balance?: number }>
+  users: Array<{ id: string; name: string; email?: string }>
   onTransactionClick?: (transaction: TransactionWithDetails) => void
 }
 
@@ -149,11 +164,11 @@ export function TransactionList({
     return categories.find((c) => c.id === categoryId)?.name || "Unknown"
   }
 
-  const getUserName = (userId: string) => {
+  const getUserName = (userId?: string) => {
     return users.find((u) => u.id === userId)?.name || "User"
   }
 
-  const getWalletName = (walletId: string) => {
+  const getWalletName = (walletId?: string) => {
     return wallets.find((w) => w.id === walletId)?.name || "Wallet"
   }
 

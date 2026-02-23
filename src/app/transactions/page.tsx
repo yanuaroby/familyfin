@@ -64,6 +64,7 @@ export default function TransactionsPage() {
       amount: data.amount,
       date: data.date,
       categoryId: "", // No category for transfers
+      accountId: "", // No account for transfers
       walletId: data.fromWalletId,
       userId: "1",
       note: data.note || `Transfer to ${data.toWalletId}`,

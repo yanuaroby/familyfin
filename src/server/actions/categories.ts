@@ -78,7 +78,6 @@ export async function updateCategory(
       .update(categories)
       .set({
         ...data,
-        updatedAt: new Date().toISOString(),
       })
       .where(eq(categories.id, categoryId))
 

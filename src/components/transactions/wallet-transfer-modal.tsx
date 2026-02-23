@@ -15,12 +15,11 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { formatCurrency } from "@/lib/utils"
-import type { Wallet as WalletType } from "@/lib/db/schema"
 
 interface WalletTransferModalProps {
   isOpen: boolean
   onClose: () => void
-  wallets: WalletType[]
+  wallets: Array<{ id: string; name: string; userId: string; balance?: number }>
   onSubmit: (data: any) => void
 }
 
@@ -130,7 +129,7 @@ export function WalletTransferModal({
                     <SelectContent className="bg-[#0a0a0a] border-white/10">
                       {availableFromWallets.map((wallet) => (
                         <SelectItem key={wallet.id} value={wallet.id}>
-                          {wallet.name} - {formatCurrency(wallet.balance)}
+                          {wallet.name} - {formatCurrency(wallet.balance ?? 0)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -152,7 +151,7 @@ export function WalletTransferModal({
                     <SelectContent className="bg-[#0a0a0a] border-white/10">
                       {availableToWallets.map((wallet) => (
                         <SelectItem key={wallet.id} value={wallet.id}>
-                          {wallet.name} - {formatCurrency(wallet.balance)}
+                          {wallet.name} - {formatCurrency(wallet.balance ?? 0)}
                         </SelectItem>
                       ))}
                     </SelectContent>

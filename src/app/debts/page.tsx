@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dialog"
 import { formatCurrency, formatDate } from "@/lib/utils"
 import { mockDebts } from "@/lib/store/mock-data"
-import type { Debt } from "@/lib/types"
+import type { Debt } from "@/lib/db/schema"
 
 // Mock payment history data
 const mockPaymentHistory = [
@@ -27,10 +27,13 @@ const mockPaymentHistory = [
   { id: "5", debtId: "3", amount: 500000, previousBalance: 2500000, newBalance: 2000000, paymentDate: "2025-02-10", note: "Paylater payment" },
 ]
 
-interface DebtWithProgress extends Debt {
+interface DebtWithProgress extends Omit<Debt, 'createdAt' | 'updatedAt' | 'notes'> {
   paid: number
   progress: number
   monthsRemaining: number
+  createdAt?: string
+  updatedAt?: string
+  notes?: string | null
 }
 
 export default function DebtsPage() {
@@ -53,6 +56,9 @@ export default function DebtsPage() {
         paid,
         progress,
         monthsRemaining,
+        color: debt.color ?? null,
+        limit: debt.limit ?? null,
+        interestRate: debt.interestRate ?? null,
       }
     })
 

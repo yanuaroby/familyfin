@@ -21,10 +21,10 @@ export interface BudgetWithCategory {
   monthlyLimit: number
   spent: number
   period: string
-  alertThreshold: number
+  alertThreshold?: number | null
   category: {
     name: string
-    color: string
+    color: string | null
   }
   percentage: number
   remaining: number

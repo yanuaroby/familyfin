@@ -98,6 +98,7 @@ export interface TransactionFormData {
   accountId: string
   debtId?: string
   note: string
+  payer: "husband" | "wife"
 }
 
 export interface CategoryFormData {

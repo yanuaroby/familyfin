@@ -41,7 +41,7 @@ export function CategoryHeatmap({ data, title = "Spending by Category" }: Catego
       <CardContent>
         <div className="h-[300px] w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <PieChart aspect={1.5}>
+            <PieChart>
               <Pie
                 data={data}
                 cx="50%"

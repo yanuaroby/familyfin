@@ -32,7 +32,7 @@ export async function createRecurringTransaction(data: {
   userId: string
   amount: number
   categoryId: string
-  walletId: string
+  accountId: string
   debtId?: string
   type: "income" | "expense" | "debt_repayment"
   note?: string
@@ -50,7 +50,7 @@ export async function createRecurringTransaction(data: {
       userId: data.userId,
       amount: data.amount,
       categoryId: data.categoryId,
-      walletId: data.walletId,
+      accountId: data.accountId,
       debtId: data.debtId,
       type: data.type,
       note: data.note,
@@ -58,8 +58,6 @@ export async function createRecurringTransaction(data: {
       startDate: data.startDate,
       nextRun: nextRunDate.toISOString().split("T")[0],
       isEnabled: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
     })
 
     revalidatePath("/recurring")
@@ -87,7 +85,7 @@ export async function updateRecurringTransaction(
     amount?: number
     categoryId?: string
     note?: string
-    frequency?: string
+    frequency?: "daily" | "weekly" | "monthly" | "yearly"
     isEnabled?: boolean
   }
 ) {
@@ -96,7 +94,6 @@ export async function updateRecurringTransaction(
       .update(recurringTransactions)
       .set({
         ...data,
-        updatedAt: new Date().toISOString(),
       })
       .where(eq(recurringTransactions.id, templateId))
 

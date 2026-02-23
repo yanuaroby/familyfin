@@ -22,21 +22,15 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 import { formatCurrency, formatDate } from "@/lib/utils"
-import type { Transaction, Category, Wallet, User, Debt } from "@/lib/db/schema"
 
 interface TransactionDetailModalProps {
   isOpen: boolean
   onClose: () => void
-  transaction: Transaction & {
-    category?: Category
-    wallet?: Wallet
-    user?: User
-    debt?: Debt
-  } | null
-  categories: Category[]
-  wallets: Wallet[]
-  users: User[]
-  debts: Debt[]
+  transaction: any | null
+  categories: Array<{ id: string; name: string; type: "income" | "expense"; color?: string | null; parentId?: string | null }>
+  wallets: Array<{ id: string; name: string; userId: string; balance?: number }>
+  users: Array<{ id: string; name: string; email?: string }>
+  debts: Array<{ id: string; name: string; remainingBalance: number }>
   onEdit: (data: any) => void
   onDelete: () => void
 }

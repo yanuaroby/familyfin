@@ -15,14 +15,13 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { cn, formatCurrency } from "@/lib/utils"
-import type { Category, Wallet, Debt } from "@/lib/db/schema"
 
 interface AddTransactionModalProps {
   isOpen: boolean
   onClose: () => void
-  categories: Category[]
-  wallets: Wallet[]
-  debts: Debt[]
+  categories: Array<{ id: string; name: string; type: "income" | "expense"; color?: string | null; parentId?: string | null }>
+  wallets: Array<{ id: string; name: string; userId: string; balance?: number }>
+  debts: Array<{ id: string; name: string; remainingBalance: number }>
   onSubmit: (data: any) => void
 }
 
