@@ -3,6 +3,9 @@ import { drizzleAdapter } from "better-auth/adapters/drizzle"
 import { db } from "@/lib/db"
 import * as schema from "@/lib/db/schema"
 
+// Generate a default secret for development
+const defaultSecret = "dev-secret-key-change-in-production-abc123xyz789"
+
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "sqlite",
@@ -31,8 +34,12 @@ export const auth = betterAuth({
       },
     },
   },
-  secret: process.env.BETTER_AUTH_SECRET || "dev-secret-key-change-in-production",
+  secret: process.env.BETTER_AUTH_SECRET || defaultSecret,
   baseURL: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+  trustedOrigins: [
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    "http://localhost:3000",
+  ].filter(Boolean),
 })
 
 export type Session = typeof auth.$Infer.Session
