@@ -6,17 +6,6 @@ import * as schema from "@/lib/db/schema"
 // Generate a default secret for development
 const defaultSecret = "dev-secret-key-change-in-production-abc123xyz789"
 
-// Get current URL dynamically
-const getBaseURL = () => {
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`
-  }
-  return "http://localhost:3000"
-}
-
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: "sqlite",
@@ -46,9 +35,14 @@ export const auth = betterAuth({
     },
   },
   secret: process.env.BETTER_AUTH_SECRET || defaultSecret,
-  baseURL: getBaseURL(),
-  // Disable origin check for Vercel deployment
-  trustedOrigins: [getBaseURL(), "http://localhost:3000", "http://localhost:3001"],
+  baseURL: "http://localhost:3000",
+  trustedOrigins: [
+    "http://localhost:3000",
+    "http://localhost:3001",
+    "https://familyfin-yanuarobys-projects.vercel.app",
+    "https://familyfin-623w.vercel.app",
+    "https://*.vercel.app",
+  ],
 })
 
 export type Session = typeof auth.$Infer.Session
