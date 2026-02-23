@@ -148,7 +148,7 @@ export default function DebtsPage() {
                   <div className="flex items-center gap-2">
                     <div
                       className="h-4 w-4 rounded-full"
-                      style={{ backgroundColor: debt.color }}
+                      style={{ backgroundColor: debt.color ?? '#888888' }}
                     />
                     <div>
                       <h3 className="text-base font-bold text-white">{debt.name}</h3>
