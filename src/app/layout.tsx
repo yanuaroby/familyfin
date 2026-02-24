@@ -24,7 +24,6 @@ export const metadata: Metadata = {
     statusBarStyle: "default",
     title: "UsFin",
   },
-  themeColor: "#000000",
 }
 
 export const viewport: Viewport = {

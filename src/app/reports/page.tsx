@@ -162,8 +162,8 @@ export default function ReportsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[250px]">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-[250px] w-full">
+              <ResponsiveContainer width="100%" height="100%" minHeight={250}>
                 <BarChart data={monthlyData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" vertical={false} />
                   <XAxis dataKey="month" fontSize={10} tick={{ fill: "#a1a1a1" }} tickLine={false} axisLine={false} />
@@ -210,8 +210,8 @@ export default function ReportsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[250px]">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-[250px] w-full">
+              <ResponsiveContainer width="100%" height="100%" minHeight={250}>
                 <PieChart>
                   <Pie
                     data={categoryData}
@@ -268,8 +268,8 @@ export default function ReportsPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[200px]">
-              <ResponsiveContainer width="100%" height="100%">
+            <div className="h-[200px] w-full">
+              <ResponsiveContainer width="100%" height="100%" minHeight={200}>
                 <BarChart data={netWorthData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1a" vertical={false} />
                   <XAxis dataKey="month" fontSize={10} tick={{ fill: "#a1a1a1" }} tickLine={false} axisLine={false} />
