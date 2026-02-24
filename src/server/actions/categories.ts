@@ -19,11 +19,13 @@ export interface CreateCategoryData {
  */
 export async function getCategories() {
   try {
+    console.log("getCategories called")
     const allCategories = await db
       .select()
       .from(categories)
       .orderBy(categories.type, categories.name)
 
+    console.log("getCategories result:", allCategories.length, "categories")
     return allCategories
   } catch (error: any) {
     console.error("Failed to get categories:", error)

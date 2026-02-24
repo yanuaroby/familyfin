@@ -22,12 +22,14 @@ export interface CreateWalletData {
  */
 export async function getWallets(userId: string) {
   try {
+    console.log("getWallets called with userId:", userId)
     const userWallets = await db
       .select()
       .from(wallets)
       .where(eq(wallets.userId, userId))
       .orderBy(wallets.name)
 
+    console.log("getWallets result:", userWallets)
     return userWallets
   } catch (error: any) {
     console.error("Failed to get wallets:", error)
