@@ -13,10 +13,10 @@ const excludedRoutes = [
   "/favicon.ico",
 ]
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Skip middleware for excluded routes
+  // Skip proxy for excluded routes
   if (excludedRoutes.some((route) => pathname.startsWith(route))) {
     return NextResponse.next()
   }
