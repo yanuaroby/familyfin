@@ -33,8 +33,8 @@ export default function DashboardPage() {
 
   async function loadDashboardData() {
     try {
-      // For now, use mock user ID - will be replaced with real auth
-      const userId = "1" // This should come from auth session
+      // Use default user ID
+      const userId = "default_user"
 
       const result = await getDashboardData(userId)
       setData(result)
@@ -47,7 +47,7 @@ export default function DashboardPage() {
 
   async function loadCategoriesAndWallets() {
     try {
-      const userId = "1"
+      const userId = "default_user"
       const [cats, wals] = await Promise.all([
         getCategories(),
         getWallets(userId),

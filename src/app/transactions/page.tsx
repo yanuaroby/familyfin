@@ -28,7 +28,7 @@ export default function TransactionsPage() {
 
   async function loadCategoriesAndWallets() {
     try {
-      const userId = "1"
+      const userId = "default_user"
       const [cats, wals] = await Promise.all([
         getCategories(),
         getWallets(userId),
