@@ -9,18 +9,11 @@ import { TransactionDetailModal } from "@/components/transactions/transaction-de
 import { AddTransactionModal } from "@/components/transactions/add-transaction-modal"
 import { WalletTransferModal } from "@/components/transactions/wallet-transfer-modal"
 import { useModal } from "@/contexts/modal-provider"
-import { mockCategories, mockAccounts, mockDebts, mockTransactions } from "@/lib/store/mock-data"
 import type { TransactionFormData } from "@/lib/types"
-
-// Mock users for now
-const mockUsers = [
-  { id: "1", name: "Husband", email: "husband@familyfin.com" },
-  { id: "2", name: "Wife", email: "wife@familyfin.com" },
-]
 
 export default function TransactionsPage() {
   const { isTransactionModalOpen, closeTransactionModal, openTransactionModal } = useModal()
-  const [transactions, setTransactions] = useState(mockTransactions)
+  const [transactions, setTransactions] = useState<any[]>([])
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
   const [isTransferOpen, setIsTransferOpen] = useState(false)
@@ -102,9 +95,9 @@ export default function TransactionsPage() {
       <div className="p-4">
         <TransactionList
           transactions={transactions}
-          categories={mockCategories}
-          wallets={mockAccounts.map(a => ({ ...a, userId: "1" }))}
-          users={mockUsers}
+          categories={[]}
+          wallets={[]}
+          users={[]}
           onTransactionClick={handleTransactionClick}
         />
       </div>
@@ -125,9 +118,9 @@ export default function TransactionsPage() {
       <AddTransactionModal
         isOpen={isTransactionModalOpen}
         onClose={closeTransactionModal}
-        categories={mockCategories}
-        wallets={mockAccounts.map(a => ({ ...a, userId: "1" }))}
-        debts={mockDebts}
+        categories={[]}
+        wallets={[]}
+        debts={[]}
         onSubmit={handleAddTransaction}
       />
 
@@ -139,10 +132,10 @@ export default function TransactionsPage() {
           setSelectedTransaction(null)
         }}
         transaction={selectedTransaction}
-        categories={mockCategories}
-        wallets={mockAccounts.map(a => ({ ...a, userId: "1" }))}
-        users={mockUsers}
-        debts={mockDebts}
+        categories={[]}
+        wallets={[]}
+        users={[]}
+        debts={[]}
         onEdit={handleEditTransaction}
         onDelete={handleDeleteTransaction}
       />
@@ -151,7 +144,7 @@ export default function TransactionsPage() {
       <WalletTransferModal
         isOpen={isTransferOpen}
         onClose={() => setIsTransferOpen(false)}
-        wallets={mockAccounts.map(a => ({ ...a, userId: "1" }))}
+        wallets={[]}
         onSubmit={handleTransfer}
       />
     </div>

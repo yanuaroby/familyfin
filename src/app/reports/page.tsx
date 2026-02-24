@@ -20,41 +20,18 @@ import {
 } from "recharts"
 import { formatCurrency } from "@/lib/utils"
 
-// Mock data for reports
-const categoryData = [
-  { name: "Household", value: 4500000, color: "#f97316" },
-  { name: "Transport", value: 1500000, color: "#3b82f6" },
-  { name: "Food & Dining", value: 2000000, color: "#8b5cf6" },
-  { name: "Baby Supplies", value: 1800000, color: "#ec4899" },
-  { name: "Shopping", value: 1200000, color: "#f43f5e" },
-  { name: "Other", value: 800000, color: "#6b7280" },
-]
-
-const monthlyData = [
-  { month: "Aug", income: 14500000, expense: 12000000, savings: 2500000 },
-  { month: "Sep", income: 15000000, expense: 13500000, savings: 1500000 },
-  { month: "Oct", income: 14500000, expense: 11000000, savings: 3500000 },
-  { month: "Nov", income: 18000000, expense: 16000000, savings: 2000000 },
-  { month: "Dec", income: 14500000, expense: 12500000, savings: 2000000 },
-  { month: "Jan", income: 14500000, expense: 13685000, savings: 815000 },
-]
-
-const netWorthData = [
-  { month: "Aug", value: 12000000 },
-  { month: "Sep", value: 12500000 },
-  { month: "Oct", value: 13200000 },
-  { month: "Nov", value: 13500000 },
-  { month: "Dec", value: 13800000 },
-  { month: "Jan", value: 14000000 },
-]
-
 export default function ReportsPage() {
+  // Empty state - no mock data
+  // Data will be loaded from database in future implementation
   const [selectedPeriod, setSelectedPeriod] = useState("6months")
+  const categoryData: any[] = []
+  const monthlyData: any[] = []
+  const netWorthData: any[] = []
 
-  const totalIncome = monthlyData.reduce((sum, m) => sum + m.income, 0)
-  const totalExpense = monthlyData.reduce((sum, m) => sum + m.expense, 0)
-  const totalSavings = monthlyData.reduce((sum, m) => sum + m.savings, 0)
-  const savingsRate = (totalSavings / totalIncome) * 100
+  const totalIncome = 0
+  const totalExpense = 0
+  const totalSavings = 0
+  const savingsRate = 0
 
   const handleExport = () => {
     // Create CSV content

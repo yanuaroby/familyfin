@@ -27,15 +27,6 @@ import {
 import { getUserBudgets, createBudget } from "@/server/actions/budgets"
 import { formatCurrency } from "@/lib/utils"
 
-const mockCategories = [
-  { id: "4", name: "Household", color: "#f97316" },
-  { id: "6", name: "Groceries", color: "#f59e0b" },
-  { id: "8", name: "Transport", color: "#3b82f6" },
-  { id: "9", name: "Fuel", color: "#2563eb" },
-  { id: "14", name: "Food & Dining", color: "#8b5cf6" },
-  { id: "15", name: "Restaurants", color: "#7c3aed" },
-]
-
 export default function BudgetsPage() {
   const [isAddOpen, setIsAddOpen] = useState(false)
   const [budgets, setBudgets] = useState<any[]>([])
@@ -52,7 +43,6 @@ export default function BudgetsPage() {
 
   async function loadBudgets() {
     try {
-      // Use mock user ID for now
       const userId = "1"
       const result = await getUserBudgets(userId)
       setBudgets(result)
@@ -134,15 +124,7 @@ export default function BudgetsPage() {
                       <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0a0a0a] border-white/10">
-                      {mockCategories.map((category) => (
-                        <SelectItem
-                          key={category.id}
-                          value={category.id}
-                          className="text-white"
-                        >
-                          {category.name}
-                        </SelectItem>
-                      ))}
+                      {[]}
                     </SelectContent>
                   </Select>
                 </div>

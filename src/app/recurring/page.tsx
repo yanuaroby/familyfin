@@ -44,7 +44,6 @@ import {
   toggleRecurringTransaction,
 } from "@/server/actions/recurring"
 import { getCategories } from "@/server/actions/categories"
-import { mockAccounts } from "@/lib/store/mock-data"
 
 const frequencyLabels: Record<string, string> = {
   daily: "Harian",
@@ -291,11 +290,7 @@ export default function RecurringPage() {
                       <SelectValue placeholder="Select wallet" />
                     </SelectTrigger>
                     <SelectContent className="bg-[#0a0a0a] border-white/10">
-                      {mockAccounts.map((wallet) => (
-                        <SelectItem key={wallet.id} value={wallet.id}>
-                          {wallet.name}
-                        </SelectItem>
-                      ))}
+                      {[]}
                     </SelectContent>
                   </Select>
                 </div>

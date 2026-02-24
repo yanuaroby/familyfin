@@ -15,17 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { formatCurrency, formatDate } from "@/lib/utils"
-import { mockDebts } from "@/lib/store/mock-data"
 import type { Debt } from "@/lib/db/schema"
-
-// Mock payment history data
-const mockPaymentHistory = [
-  { id: "1", debtId: "1", amount: 4500000, previousBalance: 102500000, newBalance: 98000000, paymentDate: "2025-02-15", note: "Monthly installment" },
-  { id: "2", debtId: "1", amount: 4500000, previousBalance: 107000000, newBalance: 102500000, paymentDate: "2025-01-15", note: "Monthly installment" },
-  { id: "3", debtId: "2", amount: 2000000, previousBalance: 5500000, newBalance: 3500000, paymentDate: "2025-02-15", note: "CC payment" },
-  { id: "4", debtId: "2", amount: 2000000, previousBalance: 7500000, newBalance: 5500000, paymentDate: "2025-01-15", note: "CC payment" },
-  { id: "5", debtId: "3", amount: 500000, previousBalance: 2500000, newBalance: 2000000, paymentDate: "2025-02-10", note: "Paylater payment" },
-]
 
 interface DebtWithProgress extends Omit<Debt, 'createdAt' | 'updatedAt' | 'notes'> {
   paid: number
@@ -43,39 +33,21 @@ export default function DebtsPage() {
   const [paymentHistory, setPaymentHistory] = useState<any[]>([])
 
   useEffect(() => {
-    // Process debts with progress calculation
-    const processedDebts = mockDebts.map((debt) => {
-      const paid = debt.totalAmount - debt.remainingBalance
-      const progress = (paid / debt.totalAmount) * 100
-      const monthsRemaining = debt.monthlyInstallment
-        ? Math.ceil(debt.remainingBalance / debt.monthlyInstallment)
-        : 0
-
-      return {
-        ...debt,
-        paid,
-        progress,
-        monthsRemaining,
-        color: debt.color ?? null,
-        limit: debt.limit ?? null,
-        interestRate: debt.interestRate ?? null,
-      }
-    })
-
-    setDebts(processedDebts)
+    // Empty state - no mock data
+    // Data will be loaded from database in future implementation
+    setDebts([])
   }, [])
 
   const openHistory = (debt: DebtWithProgress) => {
     setSelectedDebt(debt)
-    const history = mockPaymentHistory.filter(h => h.debtId === debt.id)
-    setPaymentHistory(history)
+    setPaymentHistory([])
     setIsHistoryOpen(true)
   }
 
-  const totalDebt = debts.reduce((sum, d) => sum + d.remainingBalance, 0)
-  const totalOriginal = debts.reduce((sum, d) => sum + d.totalAmount, 0)
-  const totalPaid = totalOriginal - totalDebt
-  const overallProgress = (totalPaid / totalOriginal) * 100
+  const totalDebt = 0
+  const totalOriginal = 0
+  const totalPaid = 0
+  const overallProgress = 0
 
   return (
     <div className="bg-black min-h-screen pb-20">

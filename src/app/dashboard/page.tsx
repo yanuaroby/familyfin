@@ -13,26 +13,6 @@ import { processDueRecurringTransactions } from "@/server/actions/recurring"
 import { useModal } from "@/contexts/modal-provider"
 import type { Category } from "@/lib/db/schema"
 
-// Mock data for now - will be replaced with real API calls
-const mockCategories: Category[] = [
-  { id: "1", name: "Salary", type: "income", color: "#22c55e", createdAt: "", icon: null, isDefault: false, parentId: null },
-  { id: "2", name: "Bonus", type: "income", color: "#16a34a", createdAt: "", icon: null, isDefault: false, parentId: null },
-  { id: "4", name: "Household", type: "expense", color: "#f97316", createdAt: "", icon: null, isDefault: false, parentId: null },
-  { id: "6", name: "Groceries", type: "expense", color: "#f59e0b", createdAt: "", icon: null, isDefault: false, parentId: null },
-  { id: "8", name: "Transport", type: "expense", color: "#3b82f6", createdAt: "", icon: null, isDefault: false, parentId: null },
-  { id: "9", name: "Fuel", type: "expense", color: "#2563eb", createdAt: "", icon: null, isDefault: false, parentId: null },
-  { id: "14", name: "Food & Dining", type: "expense", color: "#8b5cf6", createdAt: "", icon: null, isDefault: false, parentId: null },
-]
-
-const mockSpendingData = [
-  { date: "1", currentMonth: 150000, previousMonth: 120000 },
-  { date: "5", currentMonth: 280000, previousMonth: 250000 },
-  { date: "10", currentMonth: 420000, previousMonth: 380000 },
-  { date: "15", currentMonth: 350000, previousMonth: 400000 },
-  { date: "20", currentMonth: 520000, previousMonth: 480000 },
-  { date: "23", currentMonth: 380000, previousMonth: 350000 },
-]
-
 export default function DashboardPage() {
   const { isTransactionModalOpen, closeTransactionModal } = useModal()
   const [data, setData] = useState<any>(null)
@@ -113,7 +93,7 @@ export default function DashboardPage() {
         />
 
         {/* Spending Trend Chart */}
-        <SpendingTrendChart data={mockSpendingData} />
+        <SpendingTrendChart data={[]} />
 
         {/* Debt Progress */}
         {data?.debts && <DebtProgress debts={data.debts} />}
@@ -123,7 +103,7 @@ export default function DashboardPage() {
       <AddTransactionModal
         isOpen={isTransactionModalOpen}
         onClose={closeTransactionModal}
-        categories={mockCategories}
+        categories={[]}
         wallets={data?.wallets || []}
         debts={data?.debts || []}
         onSubmit={handleTransactionSubmit}
