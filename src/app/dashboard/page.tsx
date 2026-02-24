@@ -9,6 +9,8 @@ import { SpendingTrendChart } from "@/components/dashboard/spending-trend-chart"
 import { DebtProgress } from "@/components/dashboard/debt-progress"
 import { AddTransactionModal } from "@/components/transactions/add-transaction-modal"
 import { getDashboardData, createTransaction } from "@/server/actions/transactions"
+import { getCategories } from "@/server/actions/categories"
+import { getWallets } from "@/server/actions/wallets"
 import { processDueRecurringTransactions } from "@/server/actions/recurring"
 import { useModal } from "@/contexts/modal-provider"
 import type { Category } from "@/lib/db/schema"
@@ -17,11 +19,14 @@ export default function DashboardPage() {
   const { isTransactionModalOpen, closeTransactionModal } = useModal()
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [categories, setCategories] = useState<Category[]>([])
+  const [wallets, setWallets] = useState<any[]>([])
 
   useEffect(() => {
     // Load dashboard data
     loadDashboardData()
-
+    // Load categories and wallets for modal
+    loadCategoriesAndWallets()
     // Check recurring transactions
     processDueRecurringTransactions()
   }, [])
@@ -37,6 +42,20 @@ export default function DashboardPage() {
       console.error("Failed to load dashboard data:", error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function loadCategoriesAndWallets() {
+    try {
+      const userId = "1"
+      const [cats, wals] = await Promise.all([
+        getCategories(),
+        getWallets(userId),
+      ])
+      setCategories(cats)
+      setWallets(wals)
+    } catch (error) {
+      console.error("Failed to load categories and wallets:", error)
     }
   }
 
@@ -103,8 +122,8 @@ export default function DashboardPage() {
       <AddTransactionModal
         isOpen={isTransactionModalOpen}
         onClose={closeTransactionModal}
-        categories={[]}
-        wallets={data?.wallets || []}
+        categories={categories}
+        wallets={wallets}
         debts={data?.debts || []}
         onSubmit={handleTransactionSubmit}
       />

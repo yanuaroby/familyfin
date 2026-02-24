@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { Plus, ArrowRightLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -9,6 +9,8 @@ import { TransactionDetailModal } from "@/components/transactions/transaction-de
 import { AddTransactionModal } from "@/components/transactions/add-transaction-modal"
 import { WalletTransferModal } from "@/components/transactions/wallet-transfer-modal"
 import { useModal } from "@/contexts/modal-provider"
+import { getCategories } from "@/server/actions/categories"
+import { getWallets } from "@/server/actions/wallets"
 import type { TransactionFormData } from "@/lib/types"
 
 export default function TransactionsPage() {
@@ -17,6 +19,26 @@ export default function TransactionsPage() {
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
   const [isTransferOpen, setIsTransferOpen] = useState(false)
+  const [categories, setCategories] = useState<any[]>([])
+  const [wallets, setWallets] = useState<any[]>([])
+
+  useEffect(() => {
+    loadCategoriesAndWallets()
+  }, [])
+
+  async function loadCategoriesAndWallets() {
+    try {
+      const userId = "1"
+      const [cats, wals] = await Promise.all([
+        getCategories(),
+        getWallets(userId),
+      ])
+      setCategories(cats)
+      setWallets(wals)
+    } catch (error) {
+      console.error("Failed to load categories and wallets:", error)
+    }
+  }
 
   const handleAddTransaction = (data: TransactionFormData) => {
     const newTransaction = {
@@ -95,8 +117,8 @@ export default function TransactionsPage() {
       <div className="p-4">
         <TransactionList
           transactions={transactions}
-          categories={[]}
-          wallets={[]}
+          categories={categories}
+          wallets={wallets}
           users={[]}
           onTransactionClick={handleTransactionClick}
         />
@@ -118,8 +140,8 @@ export default function TransactionsPage() {
       <AddTransactionModal
         isOpen={isTransactionModalOpen}
         onClose={closeTransactionModal}
-        categories={[]}
-        wallets={[]}
+        categories={categories}
+        wallets={wallets}
         debts={[]}
         onSubmit={handleAddTransaction}
       />
@@ -132,8 +154,8 @@ export default function TransactionsPage() {
           setSelectedTransaction(null)
         }}
         transaction={selectedTransaction}
-        categories={[]}
-        wallets={[]}
+        categories={categories}
+        wallets={wallets}
         users={[]}
         debts={[]}
         onEdit={handleEditTransaction}
@@ -144,7 +166,7 @@ export default function TransactionsPage() {
       <WalletTransferModal
         isOpen={isTransferOpen}
         onClose={() => setIsTransferOpen(false)}
-        wallets={[]}
+        wallets={wallets}
         onSubmit={handleTransfer}
       />
     </div>
