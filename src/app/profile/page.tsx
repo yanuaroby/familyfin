@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog"
 
 const menuItems = [
+  { name: "Dompet", icon: Wallet, href: "/wallets", color: "#10b981" },
   { name: "Savings Goals", icon: Target, href: "/goals", color: "#10b981" },
   { name: "Budgets", icon: PieChart, href: "/budgets", color: "#3b82f6" },
   { name: "Debts", icon: CreditCard, href: "/debts", color: "#ef4444" },
