@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import Link from "next/link"
 import { Wallet } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -14,42 +13,43 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { authClient } from "@/lib/auth-client"
+
+// Simple PIN-based authentication
+const VALID_PIN = "12345"
 
 export default function SignInPage() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [pin, setPin] = useState("")
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError("")
     setIsLoading(true)
 
-    console.log("Attempting sign in with:", email)
-
     try {
-      const { data, error } = await authClient.signIn.email({
-        email,
-        password,
-        callbackURL: "/dashboard",
-      })
+      if (pin === VALID_PIN) {
+        // Create a simple session by calling the sign-in API
+        // We'll use a fixed user for PIN authentication
+        const response = await fetch("/api/auth/simple-signin", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ pin }),
+        })
 
-      console.log("Sign in response:", { data, error })
-
-      if (error) {
-        console.error("Sign in error:", error)
-        setError(error.message || "Sign in failed. Please check your credentials.")
+        if (response.ok) {
+          router.push("/dashboard")
+          router.refresh()
+        } else {
+          const data = await response.json()
+          setError(data.error || "Gagal masuk")
+        }
       } else {
-        console.log("Sign in successful, redirecting...")
-        router.push("/dashboard")
-        router.refresh()
+        setError("PIN salah. Gunakan: 12345")
       }
     } catch (err: any) {
-      console.error("Unexpected error:", err)
-      setError(err.message || "An unexpected error occurred")
+      setError("Terjadi kesalahan. Coba lagi.")
     } finally {
       setIsLoading(false)
     }
@@ -57,14 +57,14 @@ export default function SignInPage() {
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+      <Card className="w-full max-w-sm">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
             <Wallet className="h-12 w-12 text-primary" />
           </div>
-          <CardTitle className="text-2xl">Welcome to FamilyFin</CardTitle>
+          <CardTitle className="text-2xl">FamilyFin</CardTitle>
           <CardDescription>
-            Sign in to manage your household finances
+            Masukkan PIN untuk masuk
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -75,47 +75,31 @@ export default function SignInPage() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="pin">PIN</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="husband@familyfin.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isLoading}
-                autoComplete="email"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
+                id="pin"
                 type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={6}
+                placeholder="12345"
+                value={pin}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^0-9]/g, "")
+                  setPin(value)
+                }}
                 required
                 disabled={isLoading}
-                autoComplete="current-password"
+                className="text-center text-2xl tracking-[1em] font-mono"
+                autoComplete="off"
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign In"}
+              {isLoading ? "Memuat..." : "Masuk"}
             </Button>
           </form>
-          <div className="mt-4 text-center text-sm">
-            <Link
-              href="/auth/signup"
-              className="text-primary hover:underline"
-            >
-              Don&apos;t have an account? Sign up
-            </Link>
-          </div>
-          <div className="mt-2 text-center text-xs text-muted-foreground">
-            <p>Demo accounts:</p>
-            <p>husband@familyfin.com / password</p>
-            <p>wife@familyfin.com / password</p>
+          <div className="mt-4 text-center text-xs text-muted-foreground">
+            <p>PIN Default: <strong>12345</strong></p>
           </div>
         </CardContent>
       </Card>
