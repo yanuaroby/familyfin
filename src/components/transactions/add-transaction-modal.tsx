@@ -230,12 +230,12 @@ export function AddTransactionModal({
               <div className="space-y-2">
                 <Label className="text-sm text-muted-foreground">Kategori</Label>
                 <Select value={categoryId} onValueChange={setCategoryId} required>
-                  <SelectTrigger className="bg-white/5 border-white/10">
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
                     <SelectValue placeholder="Pilih kategori" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white max-h-60">
                     {filteredCategories.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
+                      <SelectItem key={category.id} value={category.id} className="text-white">
                         {category.name}
                       </SelectItem>
                     ))}
@@ -247,18 +247,18 @@ export function AddTransactionModal({
               <div className="space-y-2">
                 <Label className="text-sm text-muted-foreground">Dompet</Label>
                 <Select value={walletId} onValueChange={setWalletId} required>
-                  <SelectTrigger className="bg-white/5 border-white/10">
+                  <SelectTrigger className="bg-white/5 border-white/10 text-white">
                     <SelectValue placeholder="Pilih dompet" />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-[#1a1a1a] border-white/10 text-white max-h-60">
                     {wallets.length > 0 ? (
                       wallets.map((wallet) => (
-                        <SelectItem key={wallet.id} value={wallet.id}>
+                        <SelectItem key={wallet.id} value={wallet.id} className="text-white">
                           {wallet.name} - {formatCurrency(wallet.balance || 0)}
                         </SelectItem>
                       ))
                     ) : (
-                      <SelectItem value="default">Cash (Default)</SelectItem>
+                      <SelectItem value="default" className="text-white">Cash (Default)</SelectItem>
                     )}
                   </SelectContent>
                 </Select>
