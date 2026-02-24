@@ -69,6 +69,15 @@ export function AddTransactionModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    console.log("Submitting transaction:", {
+      amount,
+      type: transactionType,
+      categoryId,
+      walletId,
+      debtId,
+      payer,
+      note,
+    })
     onSubmit({
       amount: parseFloat(amount),
       type: transactionType,
@@ -89,8 +98,16 @@ export function AddTransactionModal({
   }
 
   const filteredCategories = categories.filter(
-    (c) => c.type === transactionType && !c.parentId
+    (c) => c.type === transactionType
   )
+
+  console.log("Modal state:", {
+    transactionType,
+    categoriesCount: categories.length,
+    walletsCount: wallets.length,
+    filteredCategoriesCount: filteredCategories.length,
+    filteredCategories,
+  })
 
   return (
     <AnimatePresence>
@@ -235,18 +252,13 @@ export function AddTransactionModal({
                   </SelectTrigger>
                   <SelectContent>
                     {wallets.length > 0 ? (
-                      wallets
-                        .filter((w) => {
-                          const ownerName = w.userId === "1" ? "husband" : "wife"
-                          return ownerName.includes(payer)
-                        })
-                        .map((wallet) => (
-                          <SelectItem key={wallet.id} value={wallet.id}>
-                            {wallet.name}
-                          </SelectItem>
-                        ))
+                      wallets.map((wallet) => (
+                        <SelectItem key={wallet.id} value={wallet.id}>
+                          {wallet.name} - {formatCurrency(wallet.balance || 0)}
+                        </SelectItem>
+                      ))
                     ) : (
-                      <SelectItem value="default">Cash</SelectItem>
+                      <SelectItem value="default">Cash (Default)</SelectItem>
                     )}
                   </SelectContent>
                 </Select>
