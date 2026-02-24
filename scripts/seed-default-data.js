@@ -70,6 +70,7 @@ async function seedDefaultData() {
       { id: 'wallet_cash', name: 'Kas', type: 'cash', balance: 0, color: '#22c55e' },
       { id: 'wallet_bca', name: 'BCA', type: 'bank', balance: 0, color: '#3b82f6', institution: 'Bank Central Asia' },
       { id: 'wallet_mandiri', name: 'Mandiri', type: 'bank', balance: 0, color: '#fbbf24', institution: 'Bank Mandiri' },
+      { id: 'wallet_cc', name: 'CC', type: 'credit_card', balance: 0, color: '#ef4444', institution: 'Mandiri CC' },
     ];
 
     for (const wallet of wallets) {

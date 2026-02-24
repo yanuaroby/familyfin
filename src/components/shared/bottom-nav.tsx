@@ -13,7 +13,12 @@ const navItems = [
   { name: "Transaksi", href: "/transactions", icon: Wallet },
   { name: "Add", href: "#", icon: PlusCircle, isAction: true },
   { name: "Recurring", href: "/recurring", icon: Repeat },
-  { name: "Akun", href: "/profile", icon: User },
+  { name: "Profil", href: "/profile", icon: User },
+]
+
+// Additional menu items accessible from profile
+export const additionalMenuItems = [
+  { name: "Dompet", href: "/wallets", icon: Wallet },
 ]
 
 export function BottomNav() {
