@@ -69,9 +69,9 @@ export default function DashboardPage() {
   return (
     <div className="bg-black min-h-screen">
       <DashboardHeader
-        streak={data?.streak || 5}
-        healthScore={85}
-        healthGrade="B"
+        streak={data?.streak || 0}
+        healthScore={data?.healthScore || 0}
+        healthGrade={data?.healthGrade || "-"}
         userName="Family"
       />
 

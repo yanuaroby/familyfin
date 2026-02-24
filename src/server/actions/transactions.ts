@@ -265,11 +265,86 @@ export async function getDashboardData(userId: string) {
     .where(eq(streaks.userId, userId))
     .limit(1)
 
+  // Calculate health score
+  const healthData = calculateHealthScore(
+    monthlyIncome[0]?.total || 0,
+    monthlyExpense[0]?.total || 0,
+    allDebts
+  )
+
   return {
     wallets: userWallets,
     monthlyIncome: monthlyIncome[0]?.total || 0,
     monthlyExpense: monthlyExpense[0]?.total || 0,
     debts: allDebts,
     streak: userStreak[0]?.currentStreak || 0,
+    healthScore: healthData.score,
+    healthGrade: healthData.grade,
   }
+}
+
+/**
+ * Calculate financial health score based on income, expense, and debts
+ */
+function calculateHealthScore(income: number, expense: number, debts: any[]) {
+  // If no data, return 0
+  if (income === 0 && expense === 0 && debts.length === 0) {
+    return { score: 0, grade: "-" }
+  }
+
+  let score = 0
+
+  // 1. Income/Expense Ratio (40 points max)
+  if (income > 0) {
+    const ratio = (income - expense) / income
+    if (ratio >= 0.3) score += 40
+    else if (ratio >= 0.2) score += 30
+    else if (ratio >= 0.1) score += 20
+    else if (ratio >= 0) score += 10
+  } else {
+    score += 20 // Base points if there's any expense but no income recorded
+  }
+
+  // 2. Positive Cashflow (20 points max)
+  if (income > expense) {
+    score += 20
+  } else if (income === expense) {
+    score += 10
+  }
+
+  // 3. Debt Progress (20 points max)
+  if (debts.length === 0) {
+    score += 20 // No debts = perfect score
+  } else {
+    const totalRemaining = debts.reduce((sum, d) => sum + (d.remainingBalance || d.balance), 0)
+    const totalOriginal = debts.reduce((sum, d) => sum + (d.totalAmount || Math.abs(d.balance)), 0)
+    if (totalOriginal > 0) {
+      const paidPercentage = ((totalOriginal - totalRemaining) / totalOriginal) * 100
+      if (paidPercentage >= 50) score += 20
+      else if (paidPercentage >= 30) score += 15
+      else if (paidPercentage >= 10) score += 10
+      else score += 5
+    }
+  }
+
+  // 4. Savings Rate (20 points max)
+  if (income > 0) {
+    const savingsRate = ((income - expense) / income) * 100
+    if (savingsRate >= 20) score += 20
+    else if (savingsRate >= 10) score += 15
+    else if (savingsRate >= 5) score += 10
+    else if (savingsRate >= 0) score += 5
+  }
+
+  // Cap score at 100
+  score = Math.min(100, score)
+
+  // Determine grade
+  let grade = "F"
+  if (score >= 90) grade = "A"
+  else if (score >= 75) grade = "B"
+  else if (score >= 60) grade = "C"
+  else if (score >= 45) grade = "D"
+
+  return { score, grade }
 }

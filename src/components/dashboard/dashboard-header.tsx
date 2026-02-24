@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { Flame, Shield } from "lucide-react"
+import { Flame } from "lucide-react"
 
 interface DashboardHeaderProps {
   streak: number
@@ -19,7 +19,7 @@ export function DashboardHeader({
   // Calculate circumference for progress ring
   const radius = 24
   const circumference = 2 * Math.PI * radius
-  const progress = (healthScore / 100) * circumference
+  const progress = healthScore > 0 ? (healthScore / 100) * circumference : 0
 
   // Grade colors
   const gradeColors: Record<string, string> = {
@@ -28,9 +28,10 @@ export function DashboardHeader({
     C: "#f59e0b",
     D: "#ef4444",
     F: "#7f1d1d",
+    "-": "#404040",
   }
 
-  const gradeColor = gradeColors[healthGrade] || "#10b981"
+  const gradeColor = gradeColors[healthGrade] || "#404040"
 
   return (
     <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-xl border-b border-white/5">
@@ -121,6 +122,13 @@ export function DashboardHeader({
               </motion.div>
             </div>
           </div>
+
+          {/* Tooltip for Health Score */}
+          {healthScore === 0 && (
+            <div className="absolute -bottom-8 right-0 text-[9px] text-muted-foreground whitespace-nowrap">
+              Tambah transaksi untuk melihat skor
+            </div>
+          )}
         </div>
       </div>
     </header>
